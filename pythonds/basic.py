@@ -115,6 +115,8 @@ class StackLL:
     # push adds the data to the tail of the list\n
     # pop returns data from the tail of the list\n
     # peek returns data from the tail of the list\n
+    # is_empty returns a boolean indicating whether the list is empty or not
+    # size returns an intger with the number of items in the list
     ###############################################################################\n
     '''
     def __init__(self):
@@ -147,6 +149,8 @@ class Stack:
     # push adds the data to the tail of the list\n
     # pop returns data from the tail of the list\n
     # peek returns data from the tail of the list\n
+    # is_empty returns a boolean indicating whether the list is empty or not
+    # size returns an intger with the number of items in the list
     ###############################################################################\n
     '''
 
@@ -181,6 +185,8 @@ class FifoLL:
     # push adds the data to the tail of the list\n
     # pop returns data from the head of the list\n
     # peek returns data from the head of the list\n
+    # is_empty returns a boolean indicating whether the list is empty or not
+    # size returns an intger with the number of items in the list
     ###############################################################################\n
     '''
     def __init__(self):
@@ -213,6 +219,8 @@ class Fifo:
     # push adds the data to the tail of the list\n
     # pop returns data from the head of the list\n
     # peek returns data from the head of the list\n
+    # is_empty returns a boolean indicating whether the list is empty or not
+    # size returns an intger with the number of items in the list
     ###############################################################################\n
     '''
     def __init__(self):
