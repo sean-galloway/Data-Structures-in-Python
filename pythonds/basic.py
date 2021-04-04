@@ -52,6 +52,9 @@ class LinkedList(object):
         # get_count just returns the count; it's not rocket science
         return self.list_count
 
+    def is_empty(self):
+        return self.list_count == 0
+
     def peek_head(self):
         # Return the contents of the head pointer
         return self.head.data
@@ -59,6 +62,14 @@ class LinkedList(object):
     def peek_tail(self):
         # Return the contents of the tail pointer
         return self.tail.data
+
+    def _reset_tail_pointer(self):
+        n = self.head.next
+        nth = self.head
+        while n != None:
+            n = n.next
+            nth = nth.next
+        self.tail = nth
 
     def add_to_head(self, data):
         # Add the passed in data to the head of the list
@@ -70,6 +81,65 @@ class LinkedList(object):
         else:
             n.next = self.head
             self.head = n
+
+    def add_before_item(self, d, data):
+        # Add before the matched item in the list; d is the matching item
+        if self.list_count > 0:
+            self.list_count += 1
+            if d == self.head.data:
+                n = Node(data)
+                n.next = self.head
+                self.head = n
+            else:
+                n = self.head
+                while n.next is not None:
+                    if n.next.data == d:
+                        break
+                    n = n.next
+                if n.next is None:
+                    print("Data not in the list")
+                else:
+                    self.list_count += 1
+                    nn = Node(data)
+                    nn.next = n.next
+                    n.next = nn
+                    self._reset_tail_pointer()
+
+    def add_after_item(self, d, data):
+        # Add after the matched item in the list; d is the matching item
+        n = self.head
+        while n is not None:
+            if n.data == d:
+                break
+            n = n.next
+        if n is None:
+            print("Data not in the list")
+        else:
+            self.list_count += 1
+            nn = Node(data)
+            nn.next = n.next
+            n.next = nn
+            self._reset_tail_pointer()
+
+    def add_at_index(self, index, data):
+        # Add the data at a specific index
+        if index == 1:
+            nn = Node(data)
+            nn.next = self.head
+            self.head = nn
+        i = 1
+        n = self.head
+        while i < index-1 and n is not None:
+            n = n.next
+            i += 1
+        if n is None:
+            print("Index out of bounds")
+        else:
+            self.list_count += 1
+            nn = Node(data)
+            nn.next = n.next
+            n.next = nn
+            self._reset_tail_pointer()
 
     def add_to_tail(self, data):
         # Add the passed in data to the tail of the list
@@ -117,6 +187,36 @@ class LinkedList(object):
                 self.tail = nextToNth
             return data
 
+    def del_by_value(self, d):
+        # delete a node by specific value
+        if self.get_count() > 0:
+            if self.head.data == d:
+                self.head = self.head.next
+            else:
+                n = self.head
+                while n.next is not None:
+                    if n.next.data == d:
+                        break
+                    n = n.next
+                if n.next is None:
+                    print("Data not found in list")
+                else:
+                    self.list_count -= 1
+                    n.next = n.next.next
+                    self._reset_tail_pointer()
+
+    def reverse_list(self):
+        # reverse the list
+        if self.list_count > 0:
+            prev = None
+            self.tail = self.head
+            n = self.head
+            while n is not None:
+                next = n.next
+                n.next = prev
+                prev = n
+                n = next
+            self.head = prev
 
 class DoublyLinkedList(object):
     '''
@@ -147,6 +247,9 @@ class DoublyLinkedList(object):
         # get_count just returns the count; it's not rocket science
         return self.list_count
 
+    def is_empty(self):
+        return self.list_count == 0
+
     def peek_head(self):
         # Return the contents of the head pointer
         return self.head.data
@@ -154,6 +257,14 @@ class DoublyLinkedList(object):
     def peek_tail(self):
         # Return the contents of the tail pointer
         return self.tail.data
+
+    def _reset_tail_pointer(self):
+        n = self.head.next
+        nth = self.head
+        while n != None:
+            n = n.next
+            nth = nth.next
+        self.tail = nth
 
     def add_to_head(self, data):
         # Add the passed in data to the head of the list
@@ -166,6 +277,69 @@ class DoublyLinkedList(object):
             n.next = self.head
             self.head.prev = n
             self.head = n
+
+    def add_before_item(self, d, data):
+        # Add before the matched item in the list; d is the matching item
+        if self.list_count > 0:
+            n = self.head
+            while n is not None:
+                if n.data == d:
+                    break
+                n = n.next
+            if n is None:
+                print("Data not in the list")
+            else:
+                self.list_count += 1
+                nn = Node(data)
+                nn.next = n
+                nn.prev = n.prev
+                if n.prev is not None:
+                    n.prev.next = nn
+                n.pref = nn
+                self._reset_tail_pointer()
+
+    def add_after_item(self, d, data):
+        # Add after the matched item in the list; d is the matching item
+        if self.get_count() > 0:
+            n = self.head
+            i = 0
+            while n is not None:
+                i += 1
+                if n.data == d:
+                    break
+                n = n.next
+            if n is None:
+                print("Data not in the list")
+            else:
+                self.list_count += 1
+                nn = Node(data)
+                nn.prev = n
+                nn.next = n.next
+                if n.next is not None:
+                    n.next.prev = nn
+                n.next = nn
+                if i == self.get_count():
+                    self.tail = nn
+
+    def add_at_index(self, index, data):
+        # Add the data at a specific index
+        if index == 1:
+            nn = Node(data)
+            nn.next = self.head
+            self.head = nn
+        i = 1
+        n = self.head
+        while i < index-1 and n is not None:
+            n = n.next
+            i += 1
+        if n is None:
+            print("Index out of bounds")
+        else:
+            self.list_count += 1
+            nn = Node(data)
+            nn.next = n.next
+            n.next = nn
+            self._reset_tail_pointer()
 
     def add_to_tail(self, data):
         # Add the passed in data to the tail of the list
@@ -205,6 +379,52 @@ class DoublyLinkedList(object):
                 self.tail = self.tail.prev
                 self.tail.next = None
             return data
+
+    def del_by_value(self, d):
+            # delete a node by specific value
+            if self.get_count() > 0:
+                if self.head.next is None:
+                    if self.head.data == d:
+                        self.head = None
+                        self.tail = None
+                        self.list_count -= 1
+                    else:
+                        print("Data not found")
+                elif self.head.data == d:
+                    self.head = self.head.next
+                    self.head.prev = None
+                    self._reset_tail_pointer()
+                else:
+                    n = self.head
+                    while n.next is not None:
+                        if n.data == d:
+                            break
+                        n = n.next
+                    if n.next is not None:
+                        n.prev.next = n.next
+                        n.prev.prev = n.prev
+                        self.list_count -= 1
+                        self._reset_tail_pointer()
+                    else:
+                        if n.data == d:
+                            n.prev.next = None
+                            self.list_count -= 1
+                            self._reset_tail_pointer()
+
+    def reverse_list(self):
+        # reverse the list
+        if self.list_count > 0:
+            p = self.head
+            self.tail = p
+            q = p.next
+            p.next = None
+            p.prev = q
+            while q is not None:
+                q.prev = q.next
+                q.next = p
+                p = q
+                q = q.prev
+            self.head = p
 
 
 class StackLL:
