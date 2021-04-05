@@ -23,6 +23,21 @@ These are a list of data structures written in python for self learning
 * del_by_value: this deletes an item from the list that matches the value pass in
 * reverse_list: this simply reverses the list
 
+### OrderedLinkedList Class
+
+* __init__: this includes a count of items, a head and tail pointer
+* __str__: this returns a string representation of the entire list; this is useful for debug
+* get_count: this returns the number of items in the list
+* is_empty: this returns a boolean on whether the list is empty or not
+* peek_head: this returns the value at the head of the list
+* peek_tail: this returns the value as the tail of the list
+* add: add data to the list in order
+* remove: delete a node with a specific value
+* search: returns True if the value is in the list, False otherwise
+* index: returns the position of the item in the list
+* del_from_tail: removes the last item from the list
+* del_by_index: removes the data corresponding to the index passed in
+
 ### DoublyLinkedList Class
 
 * __init__: this includes a count of items, a head and tail pointer

@@ -1,5 +1,6 @@
 import unittest
-from pythonds.basic import LinkedList, DoublyLinkedList, StackLL, StackDLL, Stack, FifoLL, FifoDLL, Fifo, QueueLL, QueueDLL, Queue, DequeLL, DequeDLL, Deque
+import random
+from pythonds.basic import LinkedList, OrderedLinkedList, DoublyLinkedList, StackLL, StackDLL, Stack, FifoLL, FifoDLL, Fifo, QueueLL, QueueDLL, Queue, DequeLL, DequeDLL, Deque
 
 class BasicTest(unittest.TestCase):
     def setUp(self):
@@ -38,8 +39,39 @@ class BasicTest(unittest.TestCase):
         while s.is_empty == False:
             s.del_from_tail()
 
+    def test_OrderedLinkedList(self):
+        # Create the OrderedLinkedList
+        s = OrderedLinkedList()
+        random.seed(42)
+        randomlist1 = random.sample(range(0,60), 10)
+        randomlist2 = random.sample(range(30,50), 10)
+        for i in randomlist2:
+            s.add(i)
+        print(f"OrderedLinkedList Contents: {str(s)}")
+        self.assertEqual(s.peek_tail(), 49, f'Value not matching: received {s.peek_tail()} expected 49')
+        self.assertEqual(s.peek_head(), 30, f'Value not matching: received {s.peek_head()} expected 30')
+        self.assertEqual(s.is_empty(), False, "Value not matching: received empty when expected not empty")
+        self.assertEqual(s.get_count(), 10, f"Value not matching: received size {s.get_count()} expected 10")
+        s.remove(30)
+        print(f"OrderedLinkedList Contents: {str(s)}")
+        s.remove(38)
+        print(f"OrderedLinkedList Contents: {str(s)}")
+        s.remove(48)
+        print(f"OrderedLinkedList Contents: {str(s)}")
+        for i in randomlist1:
+            s.add(i)
+        print(f"OrderedLinkedList Contents: {str(s)}")
+        print(f"Search 56: {s.search(56)}")
+        print(f"Search 57: {s.search(57)}")
+        print(f"Index of 14: {s.index(14)}")
+        print(f"del_from_tail 56: {s.del_from_tail()}")
+        print(f"del_by_index 10: {s.del_by_index(10)}")
+        print(f"OrderedLinkedList Contents: {str(s)}")
+        while s.is_empty == False:
+            s.del_from_tail()
+
     def test_DoublyLinkedList(self):
-        # Create the LinkedList
+        # Create the DoublyLinkedList
         s = DoublyLinkedList()
         for i in range(11):
             s.add_to_head(i)
@@ -47,24 +79,24 @@ class BasicTest(unittest.TestCase):
         self.assertEqual(s.peek_head(), 10, f'Value not matching: received {s.peek_head()} expected 10')
         self.assertEqual(s.is_empty(), False, "Value not matching: received empty when expected not empty")
         self.assertEqual(s.get_count(), 11, f"Value not matching: received size {s.get_count()} expected 11")
-        print(f"LinkedList Contents: {str(s)}")
+        print(f"DoublyLinkedList Contents: {str(s)}")
         for i in range(20, 31, 1):
             s.add_to_tail(i)
         s.add_before_item(7, 99)
-        print(f"LinkedList Contents: {str(s)}")
+        print(f"DoublyLinkedList Contents: {str(s)}")
         s.add_after_item(4,98)
-        print(f"LinkedList Contents: {str(s)}")
+        print(f"DoublyLinkedList Contents: {str(s)}")
         s.add_at_index(12, 97)
         s.add_after_item(30, 105)
         s.add_to_tail(96)
-        print(f"LinkedList Contents: {str(s)}")
+        print(f"DoublyLinkedList Contents: {str(s)}")
         s.del_by_value(10)
         s.del_by_value(98)
         s.reverse_list()
-        print(f"LinkedList Contents: {str(s)}")
+        print(f"DoublyLinkedList Contents: {str(s)}")
         for i in range(40, 51, 1):
             s.add_to_tail(i)
-        print(f"LinkedList Contents: {str(s)}")
+        print(f"DoublyLinkedList Contents: {str(s)}")
         while s.is_empty == False:
             s.del_from_tail()
 

@@ -218,6 +218,167 @@ class LinkedList(object):
                 n = next
             self.head = prev
 
+class OrderedLinkedList(object):
+    '''
+    ###############################################################################\n
+    # LinkedList Object : This is a versatile linked list object, with only a\n
+    #                     modicum of error checking\n
+    ###############################################################################\n
+    '''
+
+    def __init__(self):
+        # init method : set up the head and tail pointers and initialize the count to 0
+        self.head = None
+        self.list_count = 0
+
+    def __str__(self):
+        # a string representation of the linked list; useful for printing out the
+        # total contents
+        n = self.head
+        s = "Node List [ "
+        while n != None:
+            s += str(n.data) + " "
+            n = n.next
+        s += "]"
+        return s
+
+    def get_count(self):
+        # get_count just returns the count; it's not rocket science
+        return self.list_count
+
+    def is_empty(self):
+        return self.list_count == 0
+
+    def peek_head(self):
+        # Return the contents of the head pointer
+        return self.head.data
+
+    def peek_tail(self):
+        # Return the contents of the tail pointer
+        nth = self.head
+        while nth.next != None:
+            nth = nth.next
+        return nth.data
+
+    def add(self, d):
+        # add data to the list in order
+        c = self.head
+        p = None
+        done = False
+        while c is not None and not done:
+            if c.data > d:
+                done = True
+            else:
+                p = c
+                c = c.next
+        nn = Node(d)
+        self.list_count += 1
+        if p is None:
+            nn.next = self.head
+            self.head = nn
+        else:
+            nn.next = c
+            p.next = nn
+
+    def remove(self, d):
+        # delete a node by specific value
+        if self.get_count() > 0:
+            if self.head.data == d:
+                self.head = self.head.next
+            else:
+                n = self.head
+                while n.next is not None:
+                    if n.next.data == d:
+                        break
+                    n = n.next
+                if n.next is None:
+                    print("Data not found in list")
+                else:
+                    self.list_count -= 1
+                    n.next = n.next.next
+
+    def search(self, d):
+        # search the list for a specific value
+        c = self.head
+        found = False
+        done = False
+        while c is not None and not found and not done:
+            if c.data == d:
+                found = True
+            else:
+                if c.data > d:
+                    done = True
+                else:
+                    c = c.next
+        return found
+
+    def index(self, d):
+        # returns the position of the item in the list
+        c = self.head
+        i = 0
+        found = False
+        done = False
+        while c is not None and not found and not done:
+            if c.data == d:
+                found = True
+            else:
+                if c.data > d:
+                    done = True
+                else:
+                    c = c.next
+                    i += 1
+        if found is False:
+            print(f"Item {d} not found in list")
+            i = -1
+        return i
+
+    def del_from_tail(self):
+        # delete the item from the tail of the list and return the data
+        # This is the only tricky method in the bunch. One has to setup
+        # two pointers, nth and nextToNth and walk them down to the end.
+        # Once nth is at the end, nextToNth is one away from the end and
+        # becomes the new tail.
+        if self.list_count > 0:
+            self.list_count -= 1
+            if self.head.next == None:
+                data = self.head.data
+                self.head = None
+                self.tail = None
+            else:
+                nextToNth = self.head
+                nth = self.head.next
+                while nth.next != None:
+                    nextToNth = nth
+                    nth = nth.next
+                nextToNth.next = None
+                data = nth.data
+            return data
+
+    def del_by_index(self, index):
+        # delete a node by specific index
+        if self.get_count() > 0:
+            i = 0
+            if index > self.list_count:
+                print(f"Error in del_by_index: {index} specified by only {self.list_count} items in list")
+                return None
+            if index == 0:
+                data = self.head.data
+                self.head = self.head.next
+                self.list_count -= 1
+                return data
+            else:
+                n = self.head
+                while n.next is not None:
+                    if i == index:
+                        break
+                    n = n.next
+                    i += 1
+                self.list_count -= 1
+                n.next = n.next.next
+                data = n.data
+                return data
+
+
 class DoublyLinkedList(object):
     '''
     ###############################################################################\n
