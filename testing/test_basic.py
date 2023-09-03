@@ -378,7 +378,7 @@ class BasicTest(unittest.TestCase):
         self.assertEqual(s.is_empty(), False, "Value not matching: received empty when expected not empty")
         self.assertEqual(s.size(), 10, f"Value not matching: received size {s.size()} expected 10")
         print(f"Deque Contents: {str(s)}")
-        for i in range(10):
+        for _ in range(10):
             s.remove_front()
         self.assertEqual(s.is_empty(), True, "Value not matching: received not empty when expected empty")
         self.assertEqual(s.size(), 0, f"Value not matching: received size {s.size()} expected 0")
@@ -419,7 +419,7 @@ class BasicTest(unittest.TestCase):
         self.assertEqual(s.is_empty(), False, "Value not matching: received empty when expected not empty")
         self.assertEqual(s.size(), 10, f"Value not matching: received size {s.size()} expected 10")
         print(f"Deque Contents: {str(s)}")
-        for i in range(10):
+        for _ in range(10):
             s.remove_front()
         self.assertEqual(s.is_empty(), True, "Value not matching: received not empty when expected empty")
         self.assertEqual(s.size(), 0, f"Value not matching: received size {s.size()} expected 0")
@@ -460,7 +460,7 @@ class BasicTest(unittest.TestCase):
         self.assertEqual(s.is_empty(), False, "Value not matching: received empty when expected not empty")
         self.assertEqual(s.size(), 10, f"Value not matching: received size {s.size()} expected 10")
         print(f"Deque Contents: {str(s)}")
-        for i in range(10):
+        for _ in range(10):
             s.remove_front()
         self.assertEqual(s.is_empty(), True, "Value not matching: received not empty when expected empty")
         self.assertEqual(s.size(), 0, f"Value not matching: received size {s.size()} expected 0")
