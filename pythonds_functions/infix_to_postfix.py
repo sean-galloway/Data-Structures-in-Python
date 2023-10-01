@@ -8,13 +8,7 @@ def infix_to_postfix(infix_expr):
     ###############################################################################\n
     '''
     # set up the precedent dictionary
-    prec = {}
-    prec["*"] = 3
-    prec["/"] = 3
-    prec["+"] = 2
-    prec["-"] = 2
-    prec["("] = 1
-
+    prec = {"*": 3, "/": 3, "+": 2, "-": 2, "(": 1}
     # define the stack and the token list
     op_stack = Stack()
     postfix_list = []

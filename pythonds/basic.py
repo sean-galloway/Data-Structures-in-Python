@@ -43,7 +43,7 @@ class LinkedList(object):
         n = self.head
         s = "Node List [ "
         while n != None:
-            s += str(n.data) + " "
+            s += f"{str(n.data)} "
             n = n.next
         s += "]"
         return s
@@ -75,7 +75,7 @@ class LinkedList(object):
         # Add the passed in data to the head of the list
         n = Node(data)
         self.list_count += 1
-        if self.head == None:
+        if self.head is None:
             self.head = n
             self.tail = n
         else:
@@ -84,26 +84,27 @@ class LinkedList(object):
 
     def add_before_item(self, d, data):
         # Add before the matched item in the list; d is the matching item
-        if self.list_count > 0:
-            self.list_count += 1
-            if d == self.head.data:
-                n = Node(data)
-                n.next = self.head
-                self.head = n
+        if self.list_count <= 0:
+            return
+        self.list_count += 1
+        if d == self.head.data:
+            n = Node(data)
+            n.next = self.head
+            self.head = n
+        else:
+            n = self.head
+            while n.next is not None:
+                if n.next.data == d:
+                    break
+                n = n.next
+            if n.next is None:
+                print("Data not in the list")
             else:
-                n = self.head
-                while n.next is not None:
-                    if n.next.data == d:
-                        break
-                    n = n.next
-                if n.next is None:
-                    print("Data not in the list")
-                else:
-                    self.list_count += 1
-                    nn = Node(data)
-                    nn.next = n.next
-                    n.next = nn
-                    self._reset_tail_pointer()
+                self.list_count += 1
+                nn = Node(data)
+                nn.next = n.next
+                n.next = nn
+                self._reset_tail_pointer()
 
     def add_after_item(self, d, data):
         # Add after the matched item in the list; d is the matching item
@@ -145,19 +146,19 @@ class LinkedList(object):
         # Add the passed in data to the tail of the list
         n = Node(data)
         self.list_count += 1
-        if self.head == None:
+        if self.head is None:
             self.head = n
-            self.tail = n
         else:
             self.tail.next = n
-            self.tail = n
+
+        self.tail = n
 
     def del_from_head(self):
         # delete the item from the head of the list and return the data
         if self.list_count > 0:
             data = self.head.data
             self.list_count -= 1
-            if self.head.next == None:
+            if self.head.next is None:
                 self.head = None
                 self.tail = None
             else:
@@ -171,52 +172,55 @@ class LinkedList(object):
         # two pointers, nth and nextToNth and walk them down to the end.
         # Once nth is at the end, nextToNth is one away from the end and
         # becomes the new tail.
-        if self.list_count > 0:
-            data = self.tail.data
-            self.list_count -= 1
-            if self.head.next == None:
-                self.head = None
-                self.tail = None
-            else:
-                nextToNth = self.head
-                nth = self.head.next
-                while nth.next != None:
-                    nextToNth = nth
-                    nth = nth.next
-                nextToNth.next = None
-                self.tail = nextToNth
-            return data
+        if self.list_count <= 0:
+            return
+        data = self.tail.data
+        self.list_count -= 1
+        if self.head.next is None:
+            self.head = None
+            self.tail = None
+        else:
+            nextToNth = self.head
+            nth = self.head.next
+            while nth.next != None:
+                nextToNth = nth
+                nth = nth.next
+            nextToNth.next = None
+            self.tail = nextToNth
+        return data
 
     def del_by_value(self, d):
         # delete a node by specific value
-        if self.get_count() > 0:
-            if self.head.data == d:
-                self.head = self.head.next
+        if self.get_count() <= 0:
+            return
+        if self.head.data == d:
+            self.head = self.head.next
+        else:
+            n = self.head
+            while n.next is not None:
+                if n.next.data == d:
+                    break
+                n = n.next
+            if n.next is None:
+                print("Data not found in list")
             else:
-                n = self.head
-                while n.next is not None:
-                    if n.next.data == d:
-                        break
-                    n = n.next
-                if n.next is None:
-                    print("Data not found in list")
-                else:
-                    self.list_count -= 1
-                    n.next = n.next.next
-                    self._reset_tail_pointer()
+                self.list_count -= 1
+                n.next = n.next.next
+                self._reset_tail_pointer()
 
     def reverse_list(self):
         # reverse the list
-        if self.list_count > 0:
-            prev = None
-            self.tail = self.head
-            n = self.head
-            while n is not None:
-                next = n.next
-                n.next = prev
-                prev = n
-                n = next
-            self.head = prev
+        if self.list_count <= 0:
+            return
+        self.tail = self.head
+        n = self.head
+        prev = None
+        while n is not None:
+            next = n.next
+            n.next = prev
+            prev = n
+            n = next
+        self.head = prev
 
 class OrderedLinkedList(object):
     '''
@@ -237,7 +241,7 @@ class OrderedLinkedList(object):
         n = self.head
         s = "Node List [ "
         while n != None:
-            s += str(n.data) + " "
+            s += f"{str(n.data)} "
             n = n.next
         s += "]"
         return s
@@ -282,20 +286,21 @@ class OrderedLinkedList(object):
 
     def remove(self, d):
         # delete a node by specific value
-        if self.get_count() > 0:
-            if self.head.data == d:
-                self.head = self.head.next
+        if self.get_count() <= 0:
+            return
+        if self.head.data == d:
+            self.head = self.head.next
+        else:
+            n = self.head
+            while n.next is not None:
+                if n.next.data == d:
+                    break
+                n = n.next
+            if n.next is None:
+                print("Data not found in list")
             else:
-                n = self.head
-                while n.next is not None:
-                    if n.next.data == d:
-                        break
-                    n = n.next
-                if n.next is None:
-                    print("Data not found in list")
-                else:
-                    self.list_count -= 1
-                    n.next = n.next.next
+                self.list_count -= 1
+                n.next = n.next.next
 
     def search(self, d):
         # search the list for a specific value
@@ -305,11 +310,10 @@ class OrderedLinkedList(object):
         while c is not None and not found and not done:
             if c.data == d:
                 found = True
+            elif c.data > d:
+                done = True
             else:
-                if c.data > d:
-                    done = True
-                else:
-                    c = c.next
+                c = c.next
         return found
 
     def index(self, d):
@@ -321,13 +325,12 @@ class OrderedLinkedList(object):
         while c is not None and not found and not done:
             if c.data == d:
                 found = True
+            elif c.data > d:
+                done = True
             else:
-                if c.data > d:
-                    done = True
-                else:
-                    c = c.next
-                    i += 1
-        if found is False:
+                c = c.next
+                i += 1
+        if not found:
             print(f"Item {d} not found in list")
             i = -1
         return i
@@ -338,45 +341,46 @@ class OrderedLinkedList(object):
         # two pointers, nth and nextToNth and walk them down to the end.
         # Once nth is at the end, nextToNth is one away from the end and
         # becomes the new tail.
-        if self.list_count > 0:
-            self.list_count -= 1
-            if self.head.next == None:
-                data = self.head.data
-                self.head = None
-                self.tail = None
-            else:
-                nextToNth = self.head
-                nth = self.head.next
-                while nth.next != None:
-                    nextToNth = nth
-                    nth = nth.next
-                nextToNth.next = None
-                data = nth.data
-            return data
+        if self.list_count <= 0:
+            return
+        self.list_count -= 1
+        if self.head.next is None:
+            data = self.head.data
+            self.head = None
+            self.tail = None
+        else:
+            nextToNth = self.head
+            nth = self.head.next
+            while nth.next != None:
+                nextToNth = nth
+                nth = nth.next
+            nextToNth.next = None
+            data = nth.data
+        return data
 
     def del_by_index(self, index):
         # delete a node by specific index
-        if self.get_count() > 0:
+        if self.get_count() <= 0:
+            return
+        if index > self.list_count:
+            print(f"Error in del_by_index: {index} specified by only {self.list_count} items in list")
+            return None
+        if index == 0:
+            data = self.head.data
+            self.head = self.head.next
+        else:
+            n = self.head
             i = 0
-            if index > self.list_count:
-                print(f"Error in del_by_index: {index} specified by only {self.list_count} items in list")
-                return None
-            if index == 0:
-                data = self.head.data
-                self.head = self.head.next
-                self.list_count -= 1
-                return data
-            else:
-                n = self.head
-                while n.next is not None:
-                    if i == index:
-                        break
-                    n = n.next
-                    i += 1
-                self.list_count -= 1
-                n.next = n.next.next
-                data = n.data
-                return data
+            while n.next is not None:
+                if i == index:
+                    break
+                n = n.next
+                i += 1
+            n.next = n.next.next
+            data = n.data
+
+        self.list_count -= 1
+        return data
 
 
 class DoublyLinkedList(object):
@@ -399,7 +403,7 @@ class DoublyLinkedList(object):
         n = self.head
         s = "Node List [ "
         while n != None:
-            s += str(n.data) + " "
+            s += f"{str(n.data)} "
             n = n.next
         s += "]"
         return s
@@ -431,7 +435,7 @@ class DoublyLinkedList(object):
         # Add the passed in data to the head of the list
         n = Node(data)
         self.list_count += 1
-        if self.head == None:
+        if self.head is None:
             self.head = n
             self.tail = n
         else:
@@ -441,46 +445,48 @@ class DoublyLinkedList(object):
 
     def add_before_item(self, d, data):
         # Add before the matched item in the list; d is the matching item
-        if self.list_count > 0:
-            n = self.head
-            while n is not None:
-                if n.data == d:
-                    break
-                n = n.next
-            if n is None:
-                print("Data not in the list")
-            else:
-                self.list_count += 1
-                nn = Node(data)
-                nn.next = n
-                nn.prev = n.prev
-                if n.prev is not None:
-                    n.prev.next = nn
-                n.pref = nn
-                self._reset_tail_pointer()
+        if self.list_count <= 0:
+            return
+        n = self.head
+        while n is not None:
+            if n.data == d:
+                break
+            n = n.next
+        if n is None:
+            print("Data not in the list")
+        else:
+            self.list_count += 1
+            nn = Node(data)
+            nn.next = n
+            nn.prev = n.prev
+            if n.prev is not None:
+                n.prev.next = nn
+            n.pref = nn
+            self._reset_tail_pointer()
 
     def add_after_item(self, d, data):
         # Add after the matched item in the list; d is the matching item
-        if self.get_count() > 0:
-            n = self.head
-            i = 0
-            while n is not None:
-                i += 1
-                if n.data == d:
-                    break
-                n = n.next
-            if n is None:
-                print("Data not in the list")
-            else:
-                self.list_count += 1
-                nn = Node(data)
-                nn.prev = n
-                nn.next = n.next
-                if n.next is not None:
-                    n.next.prev = nn
-                n.next = nn
-                if i == self.get_count():
-                    self.tail = nn
+        if self.get_count() <= 0:
+            return
+        n = self.head
+        i = 0
+        while n is not None:
+            i += 1
+            if n.data == d:
+                break
+            n = n.next
+        if n is None:
+            print("Data not in the list")
+        else:
+            self.list_count += 1
+            nn = Node(data)
+            nn.prev = n
+            nn.next = n.next
+            if n.next is not None:
+                n.next.prev = nn
+            n.next = nn
+            if i == self.get_count():
+                self.tail = nn
 
     def add_at_index(self, index, data):
         # Add the data at a specific index
@@ -506,20 +512,20 @@ class DoublyLinkedList(object):
         # Add the passed in data to the tail of the list
         n = Node(data)
         self.list_count += 1
-        if self.head == None:
+        if self.head is None:
             self.head = n
-            self.tail = n
         else:
             self.tail.next = n
             n.prev = self.tail
-            self.tail = n
+
+        self.tail = n
 
     def del_from_head(self):
         # delete the item from the head of the list and return the data
         if self.list_count > 0:
             data = self.head.data
             self.list_count -= 1
-            if self.head.next == None:
+            if self.head.next is None:
                 self.head = None
                 self.tail = None
             else:
@@ -533,7 +539,7 @@ class DoublyLinkedList(object):
         if self.list_count > 0:
             data = self.tail.data
             self.list_count -= 1
-            if self.head.next == None:
+            if self.head.next is None:
                 self.head = None
                 self.tail = None
             else:
@@ -543,34 +549,34 @@ class DoublyLinkedList(object):
 
     def del_by_value(self, d):
             # delete a node by specific value
-            if self.get_count() > 0:
-                if self.head.next is None:
-                    if self.head.data == d:
-                        self.head = None
-                        self.tail = None
-                        self.list_count -= 1
-                    else:
-                        print("Data not found")
-                elif self.head.data == d:
-                    self.head = self.head.next
-                    self.head.prev = None
-                    self._reset_tail_pointer()
-                else:
-                    n = self.head
-                    while n.next is not None:
-                        if n.data == d:
-                            break
-                        n = n.next
-                    if n.next is not None:
-                        n.prev.next = n.next
-                        n.prev.prev = n.prev
-                        self.list_count -= 1
-                        self._reset_tail_pointer()
-                    else:
-                        if n.data == d:
-                            n.prev.next = None
-                            self.list_count -= 1
-                            self._reset_tail_pointer()
+        if self.get_count() <= 0:
+            return
+        if self.head.next is None:
+            if self.head.data == d:
+                self.head = None
+                self.tail = None
+                self.list_count -= 1
+            else:
+                print("Data not found")
+        elif self.head.data == d:
+            self.head = self.head.next
+            self.head.prev = None
+            self._reset_tail_pointer()
+        else:
+            n = self.head
+            while n.next is not None:
+                if n.data == d:
+                    break
+                n = n.next
+            if n.next is not None:
+                n.prev.next = n.next
+                n.prev.prev = n.prev
+                self.list_count -= 1
+                self._reset_tail_pointer()
+            elif n.data == d:
+                n.prev.next = None
+                self.list_count -= 1
+                self._reset_tail_pointer()
 
     def reverse_list(self):
         # reverse the list
@@ -676,7 +682,7 @@ class Stack:
         self.items = []
 
     def __str__(self):
-        return f"Stack: {str(tuple(self.items))}"
+        return f"Stack: {tuple(self.items)}"
 
     def is_empty(self):
         return self.items == []
@@ -781,7 +787,7 @@ class Fifo:
         self.items = []
 
     def __str__(self):
-        return f"Fifo: {str(tuple(self.items))}"
+        return f"Fifo: {tuple(self.items)}"
 
     def is_empty(self):
         return self.items == []
@@ -886,7 +892,7 @@ class Queue:
         self.items = []
 
     def __str__(self):
-        return f"Queue: {str(tuple(self.items))}"
+        return f"Queue: {tuple(self.items)}"
 
     def is_empty(self):
         return self.items == []
@@ -1018,7 +1024,7 @@ class Deque:
         self.items = []
 
     def __str__(self):
-        return f"Deque: {str(tuple(self.items))}"
+        return f"Deque: {tuple(self.items)}"
 
     def is_empty(self):
         return self.items == []
